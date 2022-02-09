@@ -36,6 +36,25 @@ module "linuxservers" {
   vm_size                          = "Standard_DS1_v2"
   delete_data_disks_on_termination = true
 
+   connection {
+    type         = "ssh"
+    user         = "azureuser"
+    private_key  = file("~/.ssh/id_rsa")
+    host         = self.public_ip_addres
+                # module.linuxservers.public_ip_address
+   }
+  provisioner "file" {
+      source      = "./scripts/setup-nginx.sh"
+      destination = "/var/tmp"  
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /var/tmp/setup-nginx.sh",
+      "/var/tmp/setup-nginx.sh",
+       "echo '===== Provionner is on its way ====='"
+    ]
+  }
+
 }
 
 module "network" {
