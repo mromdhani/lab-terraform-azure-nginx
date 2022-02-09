@@ -36,6 +36,13 @@ module "linuxservers" {
   vm_size                          = "Standard_DS1_v2"
   delete_data_disks_on_termination = true
 
+  custom_data = base64encode(data.template_file.user_data.rendered)
+
+}
+
+# Template file for Cloud-init
+data "template_file" "user_data" {
+  template = file("./scripts/setup-nginx.sh")
 }
 
 module "network" {
