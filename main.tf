@@ -42,9 +42,9 @@ resource "null_resource" "run-pestertest" {
   
   depends_on = [module.linuxservers]
  connection {
-    type         = "ssh"
-    user         = "azureuser"
-    private_key  = file("~/.ssh/id_rsa")
+    type         =  "ssh"
+    user         =  "azureuser"
+    private_key  =   file("~/.ssh/id_rsa")
     host         =   module.linuxservers.public_ip_dns_name[0]    
 
    }
